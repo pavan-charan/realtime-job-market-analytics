@@ -1,0 +1,14 @@
+apiVersion: 1
+
+providers:
+  - name: 'JobMarketIntelligence'
+    orgId: 1
+    folder: 'Job Market Intelligence'
+    folderUid: 'job_market_dw'
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
