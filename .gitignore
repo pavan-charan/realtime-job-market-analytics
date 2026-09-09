@@ -1,0 +1,67 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# C extensions
+*.obj
+*.o
+*.dll
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env.local
+ENV/
+env.bak/
+venv.bak/
+
+# Environment Variables & Secrets
+.env
+!.env.example
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Big Data / Spark / Hadoop / Checkpoints
+checkpoints/
+metastore_db/
+derby.log
+spark-warehouse/
+.spark-staging/
+warehouse/
+data/
+*.parquet
+*.orc
+*.crc
+*.log
+
+# Large Datasets (keep sample / keep README, ignore giant raw csv if needed)
+dataset/*.csv
+!dataset/sample_*.csv
+
+# Docker volumes / mounts
+docker/data/
+docker/hadoop/
+docker/hive/
+docker/kafka/
+docker/zookeeper/
+docker/grafana/data/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & scratch
+logs/
+*.log
+scratch/
