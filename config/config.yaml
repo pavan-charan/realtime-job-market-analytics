@@ -1,0 +1,55 @@
+# ==============================================================================
+# Big Data Pipeline & Infrastructure Configuration
+# ==============================================================================
+
+app:
+  name: "job-market-intelligence"
+  environment: "development"
+  log_level: "INFO"
+
+kafka:
+  bootstrap_servers: "localhost:9092"
+  docker_bootstrap_servers: "kafka:29092"
+  topic: "job_postings"
+  consumer_group: "job_market_streaming_group"
+  producer_batch_size: 10
+  producer_delay_seconds: 1.0
+  auto_offset_reset: "earliest"
+
+hdfs:
+  namenode_url: "hdfs://localhost:9000"
+  docker_namenode_url: "hdfs://namenode:9000"
+  webhdfs_url: "http://localhost:9870"
+  base_path: "/data/job_market"
+  bronze_path: "/data/job_market/bronze"
+  silver_path: "/data/job_market/silver"
+  gold_path: "/data/job_market/gold"
+  checkpoint_path: "/data/job_market/checkpoints"
+
+spark:
+  app_name: "JobMarketIntelligence"
+  master: "spark://localhost:7077"
+  local_master: "local[*]"
+  driver_memory: "2g"
+  executor_memory: "2g"
+  executor_cores: 2
+  streaming_trigger_seconds: 10
+  warehouse_dir: "hdfs://localhost:9000/user/hive/warehouse"
+
+hive:
+  metastore_uri: "thrift://localhost:9083"
+  hiveserver2_host: "localhost"
+  hiveserver2_port: 10000
+  database: "job_market_dw"
+  driver: "org.apache.hive.jdbc.HiveDriver"
+
+ml:
+  model_save_path: "/data/job_market/models/salary_prediction_rf"
+  train_split_ratio: 0.8
+  random_seed: 42
+  num_trees: 50
+  max_depth: 10
+
+dataset:
+  raw_csv_path: "dataset/tech_job_postings.csv"
+  sample_size: 10000
