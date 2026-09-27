@@ -25,6 +25,15 @@ import sys
 from typing import Any, Dict
 import yaml
 
+# Auto-correct JAVA_HOME if it points to \bin on Windows
+if "JAVA_HOME" in os.environ and os.environ["JAVA_HOME"].endswith(("\\bin", "/bin")):
+    os.environ["JAVA_HOME"] = os.path.dirname(os.environ["JAVA_HOME"])
+elif "JAVA_HOME" not in os.environ:
+    for candidate in [r"C:\Program Files\Java\jdk-21", r"C:\Program Files\Java\jdk-17", r"C:\Program Files\Java\jdk-11"]:
+        if os.path.exists(candidate):
+            os.environ["JAVA_HOME"] = candidate
+            break
+
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import (
     col,

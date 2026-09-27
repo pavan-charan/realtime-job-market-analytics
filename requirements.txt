@@ -1,6 +1,6 @@
 # Big Data & Streaming
 pyspark==3.5.0
-kafka-python==2.0.2
+kafka-python-ng>=2.2.0
 findspark==2.0.1
 
 # Data Processing & Storage

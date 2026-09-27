@@ -143,5 +143,5 @@ streamlit run grafana/predict_app.py
 ```
 
 ### 8. View Grafana Dashboards
-- Open `http://localhost:3000` (User: `admin` | Pass: `admin`)
+- Open `http://localhost:3001` (User: `admin` | Pass: `admin`)
 - Navigate to **Dashboards → Job Market Intelligence**
