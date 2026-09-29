@@ -5,8 +5,7 @@
 -- ==============================================================================
 
 CREATE DATABASE IF NOT EXISTS job_market_dw
-COMMENT 'Enterprise Lakehouse Data Warehouse for Real-Time Job Market Intelligence'
-LOCATION '/data/job_market/hive_warehouse';
+COMMENT 'Enterprise Lakehouse Data Warehouse for Real-Time Job Market Intelligence';
 
 USE job_market_dw;
 

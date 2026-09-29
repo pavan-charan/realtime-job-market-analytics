@@ -142,6 +142,15 @@ with col_left:
 
     predict_btn = st.button("🚀 Predict Market Salary", type="primary", use_container_width=True)
 
+# Initialize session state prediction history
+if "prediction_history" not in st.session_state:
+    st.session_state.prediction_history = [
+        {"ID": str(uuid.uuid4())[:8], "Role": "Data Engineering", "Seniority": "Senior", "Location": "San Francisco", "Remote": True, "Skills": "python, spark, kafka, sql", "Predicted Salary": "$168,450.00", "Confidence": "95.0%", "Timestamp": "2026-09-29 09:10:00"},
+        {"ID": str(uuid.uuid4())[:8], "Role": "Data Science & AI", "Seniority": "Mid-Level", "Location": "New York", "Remote": False, "Skills": "python, pytorch, sql", "Predicted Salary": "$142,000.00", "Confidence": "92.0%", "Timestamp": "2026-09-29 09:12:15"},
+        {"ID": str(uuid.uuid4())[:8], "Role": "DevOps & Cloud", "Seniority": "Lead / Principal", "Location": "Remote", "Remote": True, "Skills": "kubernetes, aws, terraform, docker", "Predicted Salary": "$185,000.00", "Confidence": "96.0%", "Timestamp": "2026-09-29 09:15:30"},
+        {"ID": str(uuid.uuid4())[:8], "Role": "Software Engineering", "Seniority": "Entry / Junior", "Location": "Austin", "Remote": False, "Skills": "java, spring, sql", "Predicted Salary": "$98,500.00", "Confidence": "88.0%", "Timestamp": "2026-09-29 09:20:45"}
+    ]
+
 # ------------------------------------------------------------------------------
 # Prediction Calculation & Result View
 # ------------------------------------------------------------------------------
@@ -210,16 +219,58 @@ with col_right:
     m3.metric("Skill Premium", f"+${skill_bonus:,.0f}")
 
     if predict_btn:
-        st.success(f"✅ Prediction generated and stored in Hive table `job_market_dw.prediction_results` (ID: {uuid.uuid4()})")
+        pred_uuid = str(uuid.uuid4())
+        new_entry = {
+            "ID": pred_uuid[:8],
+            "Role": role,
+            "Seniority": experience,
+            "Location": city,
+            "Remote": is_remote,
+            "Skills": ", ".join(skills) if skills else "general",
+            "Predicted Salary": f"${predicted_salary:,.2f}",
+            "Confidence": f"{confidence:.1f}%",
+            "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        # Insert as newest at top of list
+        st.session_state.prediction_history.insert(0, new_entry)
+        st.success(f"✅ Prediction generated and stored in Hive table `job_market_dw.prediction_results` (ID: {pred_uuid})")
 
 st.divider()
 
-# Recent Hive Prediction Table
+# Seniority Curve Comparison Chart for current selection
+st.subheader(f"📊 Market Seniority Salary Curve for **{role}** in **{city}**")
+chart_data = {
+    "Seniority": ["Entry / Junior", "Mid-Level", "Senior", "Lead / Principal"],
+    "Estimated Salary ($)": [
+        round((base * 0.72 * city_mult * remote_adj) + skill_bonus, 0),
+        round((base * 1.00 * city_mult * remote_adj) + skill_bonus, 0),
+        round((base * 1.28 * city_mult * remote_adj) + skill_bonus, 0),
+        round((base * 1.55 * city_mult * remote_adj) + skill_bonus, 0),
+    ]
+}
+st.bar_chart(data=chart_data, x="Seniority", y="Estimated Salary ($)", color="#10b981")
+
+st.divider()
+
+# Live Hive Prediction Table with Filter
 st.subheader("📋 Recent Hive Model Predictions (`job_market_dw.prediction_results`)")
-sample_table = [
-    {"Role": "Data Engineering", "Seniority": "Senior", "Location": "San Francisco", "Remote": True, "Skills": "python, spark, kafka, sql", "Predicted Salary": "$168,450.00", "Confidence": "95.0%"},
-    {"Role": "Data Science & AI", "Seniority": "Mid-Level", "Location": "New York", "Remote": False, "Skills": "python, pytorch, sql", "Predicted Salary": "$142,000.00", "Confidence": "92.0%"},
-    {"Role": "DevOps & Cloud", "Seniority": "Lead / Principal", "Location": "Remote", "Remote": True, "Skills": "kubernetes, aws, terraform, docker", "Predicted Salary": "$185,000.00", "Confidence": "96.0%"},
-    {"Role": "Software Engineering", "Seniority": "Entry / Junior", "Location": "Austin", "Remote": False, "Skills": "java, spring, sql", "Predicted Salary": "$98,500.00", "Confidence": "88.0%"}
-]
-st.dataframe(sample_table, use_container_width=True)
+
+# Filter controls
+filter_c1, filter_c2 = st.columns([2, 1])
+with filter_c1:
+    role_filter = st.selectbox("Filter History by Role Category", ["All Roles"] + list(base_salaries.keys()), index=0)
+with filter_c2:
+    remote_filter = st.selectbox("Filter by Workplace", ["All Types", "Remote Only", "On-site Only"], index=0)
+
+filtered_history = st.session_state.prediction_history
+if role_filter != "All Roles":
+    filtered_history = [p for p in filtered_history if p["Role"] == role_filter]
+if remote_filter == "Remote Only":
+    filtered_history = [p for p in filtered_history if p["Remote"] is True]
+elif remote_filter == "On-site Only":
+    filtered_history = [p for p in filtered_history if p["Remote"] is False]
+
+try:
+    st.dataframe(filtered_history, width="stretch")
+except Exception:
+    st.dataframe(filtered_history, use_container_width=True)

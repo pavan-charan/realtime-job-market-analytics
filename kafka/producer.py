@@ -251,9 +251,9 @@ class JobPostingsProducer:
                 if interval > 0:
                     time.sleep(interval)
 
-                # Periodic performance logging every 5 seconds
+                # Periodic performance logging every 3 seconds & persist live metrics to PostgreSQL
                 now = time.time()
-                if now - last_metric_time >= 5.0:
+                if now - last_metric_time >= 3.0:
                     elapsed = now - last_metric_time
                     current_eps = records_since_last_metric / elapsed
                     overall_eps = self.total_sent / (now - start_time)
@@ -261,6 +261,36 @@ class JobPostingsProducer:
                         "Streaming Stats -> Sent: %d | Acked: %d | Failed: %d | Velocity: %.1f eps (Overall: %.1f eps)",
                         self.total_sent, self.total_acknowledged, self.total_failed, current_eps, overall_eps
                     )
+                    
+                    # Persist live metrics to PostgreSQL for Grafana
+                    try:
+                        import psycopg2
+                        p_conn = psycopg2.connect(
+                            host=os.getenv("POSTGRES_HOST", "localhost"),
+                            port=int(os.getenv("POSTGRES_PORT", "5434")),
+                            dbname=os.getenv("POSTGRES_DB", "metastore"),
+                            user=os.getenv("POSTGRES_USER", "hive"),
+                            password=os.getenv("POSTGRES_PASSWORD", "hivepassword")
+                        )
+                        p_cur = p_conn.cursor()
+                        p_cur.execute("""
+                            INSERT INTO streaming_metrics (metric_name, value, recorded_at) VALUES
+                            ('kafka_ingestion_rate', %s, NOW()),
+                            ('consumer_lag', %s, NOW()),
+                            ('total_bronze_rows', %s, NOW()),
+                            ('failed_records', %s, NOW());
+                        """, (
+                            float(self.rate if self.rate > 0 else current_eps),
+                            float(max(0, self.total_sent - self.total_acknowledged)),
+                            float(self.total_sent),
+                            float(self.total_failed)
+                        ))
+                        p_conn.commit()
+                        p_cur.close()
+                        p_conn.close()
+                    except Exception as e:
+                        pass # Non-blocking on Postgres metric log
+
                     last_metric_time = now
                     records_since_last_metric = 0
 

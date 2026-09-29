@@ -25,6 +25,15 @@ elif "JAVA_HOME" not in os.environ:
             os.environ["JAVA_HOME"] = candidate
             break
 
+# Auto-configure HADOOP_HOME for Windows winutils
+hadoop_home = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "hadoop_home"))
+if os.path.exists(hadoop_home):
+    os.environ["HADOOP_HOME"] = hadoop_home
+    os.environ["hadoop.home.dir"] = hadoop_home
+    bin_path = os.path.join(hadoop_home, "bin")
+    if bin_path not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = bin_path + os.pathsep + os.environ.get("PATH", "")
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
     col,
@@ -119,10 +128,12 @@ class SparkBronzeStreamer:
         hdfs_cfg = self.config.get("hdfs", {})
         namenode = hdfs_cfg.get("namenode_url", "hdfs://localhost:9000")
         
-        # In case HDFS is accessed via cluster vs local fallback
-        if is_local and os.getenv("USE_LOCAL_FS", "false").lower() == "true":
-            self.bronze_output_path = "data/bronze"
-            self.checkpoint_path = "data/checkpoints/bronze"
+        # Check if running in local storage mode
+        use_local_fs = os.getenv("USE_LOCAL_FS", "true").lower() == "true" or is_local
+        
+        if use_local_fs:
+            self.bronze_output_path = os.path.abspath("data/bronze")
+            self.checkpoint_path = os.path.abspath("data/checkpoints/bronze")
         else:
             self.bronze_output_path = f"{namenode}{hdfs_cfg.get('bronze_path', '/data/job_market/bronze')}"
             self.checkpoint_path = f"{namenode}{hdfs_cfg.get('checkpoint_path', '/data/job_market/checkpoints')}/bronze"
@@ -157,10 +168,18 @@ class SparkBronzeStreamer:
             .config("spark.sql.shuffle.partitions", "4")  # Optimized for streaming micro-batches
             .config("spark.streaming.stopGracefullyOnShutdown", "true")
             .config("spark.sql.session.timeZone", "UTC")
+            .config("spark.hadoop.dfs.client.use.datanode.hostname", "true")
+            .config("spark.hadoop.dfs.datanode.use.datanode.hostname", "true")
+            .config("spark.hadoop.fs.permissions.umask-mode", "000")
         )
 
         spark = builder.getOrCreate()
         spark.sparkContext.setLogLevel("WARN")
+        # Apply to underlying Hadoop configuration
+        hadoop_conf = spark.sparkContext._jsc.hadoopConfiguration()
+        hadoop_conf.set("dfs.client.use.datanode.hostname", "true")
+        hadoop_conf.set("dfs.datanode.use.datanode.hostname", "true")
+        hadoop_conf.set("fs.permissions.umask-mode", "000")
         logger.info("Spark Session established successfully. Spark Version: %s", spark.version)
         return spark
 
@@ -176,7 +195,7 @@ class SparkBronzeStreamer:
             .option("subscribe", self.kafka_topic)
             .option("startingOffsets", self.starting_offsets)
             .option("failOnDataLoss", "false")
-            .option("maxOffsetsPerTrigger", 500)  # Rate limiting per micro-batch
+            .option("maxOffsetsPerTrigger", 5000)  # Rate limiting per micro-batch
             .load()
         )
 

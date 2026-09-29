@@ -1,0 +1,12 @@
+{
+  "model_type": "RandomForestRegressor",
+  "num_trees": 100,
+  "max_depth": 12,
+  "train_records": 10200,
+  "test_records": 2435,
+  "r2_score": 0.2189,
+  "rmse_usd": 79825.18,
+  "mae_usd": 53519.02,
+  "training_duration_sec": 24.98,
+  "model_path": "C:\\Users\\sirap\\OneDrive\\Desktop\\Sem-7\\Big data\\Project\\job-market-intelligence\\data\\models\\salary_prediction_rf"
+}

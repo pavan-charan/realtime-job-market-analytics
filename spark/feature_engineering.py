@@ -10,8 +10,8 @@ Features processed:
 - Target: annual_salary_usd
 """
 
-from typing import List, Tuple
-from pyspark.ml import Pipeline, PipelineStage
+from typing import List, Tuple, Any
+from pyspark.ml import Pipeline
 from pyspark.ml.feature import (
     StringIndexer,
     OneHotEncoder,
@@ -55,11 +55,15 @@ class JobSalaryFeaturePipeline:
         Prepares raw/silver dataset by extracting primary skill, casting numerics,
         and filtering out records with null target salary.
         """
+        df_cols = df.columns
+        city_expr = col("city_normalized") if "city_normalized" in df_cols else (col("city") if "city" in df_cols else lit("Remote"))
+        skills_cnt_expr = col("skills_count") if "skills_count" in df_cols else (size(col("skills")) if "skills" in df_cols else lit(0))
+
         prepared_df = (
             df.filter(col("annual_salary_usd").isNotNull() & (col("annual_salary_usd") > 0))
             .withColumn("role_category", coalesce(col("role_category"), lit("Other Tech Roles")))
             .withColumn("experience_level", coalesce(col("experience_level"), lit("Mid-Level")))
-            .withColumn("city_normalized", coalesce(col("city_normalized"), col("city"), lit("Remote")))
+            .withColumn("city_normalized", coalesce(city_expr, lit("Remote")))
             .withColumn("employment_type", coalesce(lower(trim(col("employment_type"))), lit("full_time")))
             # Extract first skill from array as primary skill representation
             .withColumn(
@@ -68,18 +72,18 @@ class JobSalaryFeaturePipeline:
                 .otherwise(lit("general"))
             )
             .withColumn("is_remote_double", when(col("is_remote") == True, 1.0).otherwise(0.0))
-            .withColumn("skills_count_double", coalesce(col("skills_count"), lit(0)).cast("double"))
+            .withColumn("skills_count_double", coalesce(skills_cnt_expr, lit(0)).cast("double"))
             .withColumn("label", col("annual_salary_usd").cast("double"))
         )
         return prepared_df
 
     @classmethod
-    def build_pipeline_stages(cls) -> List[PipelineStage]:
+    def build_pipeline_stages(cls) -> List[Any]:
         """
         Assembles StringIndexers, OneHotEncoders, and VectorAssembler.
         Uses handleInvalid='keep' to ensure inference robustness on unseen categories.
         """
-        stages: List[PipelineStage] = []
+        stages: List[Any] = []
         indexed_cols = [f"{c}_idx" for c in cls.CATEGORICAL_COLS]
         encoded_cols = [f"{c}_vec" for c in cls.CATEGORICAL_COLS]
 

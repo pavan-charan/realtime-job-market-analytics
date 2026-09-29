@@ -1,0 +1,819 @@
+{
+  "project_name": "Real-Time Tech Job Market Intelligence Platform",
+  "scanned_at": "",
+  "root_directory": "C:\\Users\\sirap\\OneDrive\\Desktop\\Sem-7\\Big data\\Project\\job-market-intelligence",
+  "summary": "Enterprise Big Data & Machine Learning Platform for Real-Time Job Market Analytics and Salary Prediction",
+  "file_tree": {
+    "docs.py": {
+      "lines": 102,
+      "extension": ".py"
+    },
+    "PROJECT_END_TO_END_GUIDE.md": {
+      "lines": 262,
+      "extension": ".md"
+    },
+    "README.md": {
+      "lines": 147,
+      "extension": ".md"
+    },
+    "requirements.txt": {
+      "lines": 23,
+      "extension": ".txt"
+    },
+    "streamlit_app.py": {
+      "lines": 16,
+      "extension": ".py"
+    },
+    ".agents/skills/project-documentation-workflow/SKILL.md": {
+      "lines": 84,
+      "extension": ".md"
+    },
+    ".agents/skills/project-documentation-workflow/scripts/build_pdf.py": {
+      "lines": 362,
+      "extension": ".py"
+    },
+    ".agents/skills/project-documentation-workflow/scripts/generate_doc.py": {
+      "lines": 645,
+      "extension": ".py"
+    },
+    ".agents/skills/project-documentation-workflow/scripts/scan_project.py": {
+      "lines": 227,
+      "extension": ".py"
+    },
+    ".agents/skills/project-documentation-workflow/scripts/validate_doc.py": {
+      "lines": 135,
+      "extension": ".py"
+    },
+    "config/config.yaml": {
+      "lines": 55,
+      "extension": ".yaml"
+    },
+    "dataset/README.md": {
+      "lines": 2,
+      "extension": ".md"
+    },
+    "dataset/tech_job_postings.csv": {
+      "lines": 394301,
+      "extension": ".csv"
+    },
+    "docker/docker-compose.yml": {
+      "lines": 274,
+      "extension": ".yml"
+    },
+    "docs/model_metrics.json": {
+      "lines": 12,
+      "extension": ".json"
+    },
+    "docs/phase1_setup.md": {
+      "lines": 180,
+      "extension": ".md"
+    },
+    "docs/phase_2_guide.md": {
+      "lines": 143,
+      "extension": ".md"
+    },
+    "docs/phase_3_guide.md": {
+      "lines": 166,
+      "extension": ".md"
+    },
+    "docs/phase_4_guide.md": {
+      "lines": 156,
+      "extension": ".md"
+    },
+    "docs/phase_5_guide.md": {
+      "lines": 177,
+      "extension": ".md"
+    },
+    "docs/phase_6_guide.md": {
+      "lines": 161,
+      "extension": ".md"
+    },
+    "docs/phase_7_guide.md": {
+      "lines": 121,
+      "extension": ".md"
+    },
+    "documentation/content/01_cover.md": {
+      "lines": 9,
+      "extension": ".md"
+    },
+    "documentation/content/02_document_control.md": {
+      "lines": 12,
+      "extension": ".md"
+    },
+    "documentation/content/03_toc.md": {
+      "lines": 33,
+      "extension": ".md"
+    },
+    "documentation/content/04_executive_summary.md": {
+      "lines": 10,
+      "extension": ".md"
+    },
+    "documentation/content/05_project_overview.md": {
+      "lines": 11,
+      "extension": ".md"
+    },
+    "documentation/content/06_scope_boundaries.md": {
+      "lines": 14,
+      "extension": ".md"
+    },
+    "documentation/content/07_users_personas.md": {
+      "lines": 8,
+      "extension": ".md"
+    },
+    "documentation/content/08_system_architecture.md": {
+      "lines": 46,
+      "extension": ".md"
+    },
+    "documentation/content/09_tech_stack.md": {
+      "lines": 28,
+      "extension": ".md"
+    },
+    "documentation/content/10_features_modules.md": {
+      "lines": 18,
+      "extension": ".md"
+    },
+    "documentation/content/11_user_workflows.md": {
+      "lines": 24,
+      "extension": ".md"
+    },
+    "documentation/content/12_api_interfaces.md": {
+      "lines": 16,
+      "extension": ".md"
+    },
+    "documentation/content/13_database_star_schema.md": {
+      "lines": 112,
+      "extension": ".md"
+    },
+    "documentation/content/14_hive_bi_queries.md": {
+      "lines": 3,
+      "extension": ".md"
+    },
+    "documentation/content/15_codebase_structure.md": {
+      "lines": 41,
+      "extension": ".md"
+    },
+    "documentation/content/16_mllib_architecture.md": {
+      "lines": 18,
+      "extension": ".md"
+    },
+    "documentation/content/17_security_access.md": {
+      "lines": 8,
+      "extension": ".md"
+    },
+    "documentation/content/18_resilience_fault_tolerance.md": {
+      "lines": 7,
+      "extension": ".md"
+    },
+    "documentation/content/19_setup_guide.md": {
+      "lines": 24,
+      "extension": ".md"
+    },
+    "documentation/content/20_deployment_guide.md": {
+      "lines": 16,
+      "extension": ".md"
+    },
+    "documentation/content/21_testing_strategy.md": {
+      "lines": 10,
+      "extension": ".md"
+    },
+    "documentation/content/22_troubleshooting_guide.md": {
+      "lines": 13,
+      "extension": ".md"
+    },
+    "documentation/content/23_team_guidelines.md": {
+      "lines": 15,
+      "extension": ".md"
+    },
+    "documentation/content/24_team_responsibilities.md": {
+      "lines": 9,
+      "extension": ".md"
+    },
+    "documentation/content/25_decision_log.md": {
+      "lines": 13,
+      "extension": ".md"
+    },
+    "documentation/content/26_current_status.md": {
+      "lines": 9,
+      "extension": ".md"
+    },
+    "documentation/content/27_future_roadmap.md": {
+      "lines": 6,
+      "extension": ".md"
+    },
+    "documentation/content/28_glossary.md": {
+      "lines": 8,
+      "extension": ".md"
+    },
+    "documentation/content/29_completeness_report.md": {
+      "lines": 13,
+      "extension": ".md"
+    },
+    "documentation/content/30_maintenance_workflow.md": {
+      "lines": 10,
+      "extension": ".md"
+    },
+    "documentation/content/31_appendix.md": {
+      "lines": 8,
+      "extension": ".md"
+    },
+    "documentation/generated/completeness_report.json": {
+      "lines": 257,
+      "extension": ".json"
+    },
+    "documentation/generated/completeness_report.md": {
+      "lines": 37,
+      "extension": ".md"
+    },
+    "documentation/generated/project_metadata.json": {
+      "lines": 582,
+      "extension": ".json"
+    },
+    "grafana/dashboard.json": {
+      "lines": 638,
+      "extension": ".json"
+    },
+    "grafana/predict_app.py": {
+      "lines": 276,
+      "extension": ".py"
+    },
+    "grafana/README.md": {
+      "lines": 42,
+      "extension": ".md"
+    },
+    "grafana/provisioning/dashboards/dashboards.yaml": {
+      "lines": 14,
+      "extension": ".yaml"
+    },
+    "grafana/provisioning/datasources/datasources.yaml": {
+      "lines": 18,
+      "extension": ".yaml"
+    },
+    "hive/README.md": {
+      "lines": 31,
+      "extension": ".md"
+    },
+    "hive/schema.sql": {
+      "lines": 197,
+      "extension": ".sql"
+    },
+    "hive/warehouse_queries.sql": {
+      "lines": 345,
+      "extension": ".sql"
+    },
+    "kafka/consumer.py": {
+      "lines": 176,
+      "extension": ".py"
+    },
+    "kafka/producer.py": {
+      "lines": 358,
+      "extension": ".py"
+    },
+    "kafka/README.md": {
+      "lines": 57,
+      "extension": ".md"
+    },
+    "scripts/sync_postgres_tables.py": {
+      "lines": 172,
+      "extension": ".py"
+    },
+    "spark/etl.py": {
+      "lines": 539,
+      "extension": ".py"
+    },
+    "spark/feature_engineering.py": {
+      "lines": 121,
+      "extension": ".py"
+    },
+    "spark/predict.py": {
+      "lines": 332,
+      "extension": ".py"
+    },
+    "spark/README.md": {
+      "lines": 37,
+      "extension": ".md"
+    },
+    "spark/streaming.py": {
+      "lines": 352,
+      "extension": ".py"
+    },
+    "spark/train_model.py": {
+      "lines": 252,
+      "extension": ".py"
+    }
+  },
+  "docker_services": {
+    "zookeeper": {
+      "image": "confluentinc/cp-zookeeper:7.5.0",
+      "container_name": "zookeeper",
+      "ports": [
+        "2181:2181"
+      ],
+      "environment_keys": [
+        "ZOOKEEPER_CLIENT_PORT",
+        "ZOOKEEPER_TICK_TIME"
+      ]
+    },
+    "kafka": {
+      "image": "confluentinc/cp-kafka:7.5.0",
+      "container_name": "kafka",
+      "ports": [
+        "9092:9092",
+        "29092:29092"
+      ],
+      "environment_keys": [
+        "KAFKA_BROKER_ID",
+        "KAFKA_ZOOKEEPER_CONNECT",
+        "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP",
+        "KAFKA_ADVERTISED_LISTENERS",
+        "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR",
+        "KAFKA_TRANSACTION_STATE_LOG_MIN_ISR",
+        "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR",
+        "KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS",
+        "KAFKA_AUTO_CREATE_TOPICS_ENABLE"
+      ]
+    },
+    "kafka-init": {
+      "image": "confluentinc/cp-kafka:7.5.0",
+      "container_name": "kafka-init",
+      "ports": [],
+      "environment_keys": []
+    },
+    "namenode": {
+      "image": "bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8",
+      "container_name": "namenode",
+      "ports": [
+        "9870:9870",
+        "9000:9000"
+      ],
+      "environment_keys": []
+    },
+    "datanode": {
+      "image": "bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8",
+      "container_name": "datanode",
+      "ports": [
+        "9864:9864",
+        "9866:9866",
+        "9867:9867"
+      ],
+      "environment_keys": []
+    },
+    "hive-metastore-db": {
+      "image": "postgres:13",
+      "container_name": "hive-metastore-db",
+      "ports": [
+        "5434:5432"
+      ],
+      "environment_keys": [
+        "POSTGRES_DB",
+        "POSTGRES_USER",
+        "POSTGRES_PASSWORD"
+      ]
+    },
+    "hive-metastore": {
+      "image": "apache/hive:3.1.3",
+      "container_name": "hive-metastore",
+      "ports": [
+        "9083:9083"
+      ],
+      "environment_keys": [
+        "SERVICE_NAME",
+        "DB_DRIVER",
+        "IS_RESUME",
+        "SERVICE_OPTS"
+      ]
+    },
+    "hive-server": {
+      "image": "apache/hive:3.1.3",
+      "container_name": "hive-server",
+      "ports": [
+        "10000:10000",
+        "10002:10002"
+      ],
+      "environment_keys": [
+        "SERVICE_NAME",
+        "DB_DRIVER",
+        "IS_RESUME",
+        "SERVICE_OPTS"
+      ]
+    },
+    "spark-master": {
+      "image": "apache/spark:3.5.0",
+      "container_name": "spark-master",
+      "ports": [
+        "7077:7077",
+        "8080:8080"
+      ],
+      "environment_keys": []
+    },
+    "spark-worker": {
+      "image": "apache/spark:3.5.0",
+      "container_name": "spark-worker",
+      "ports": [
+        "8081:8081"
+      ],
+      "environment_keys": []
+    },
+    "grafana": {
+      "image": "grafana/grafana:10.2.0",
+      "container_name": "grafana",
+      "ports": [
+        "3001:3000"
+      ],
+      "environment_keys": []
+    }
+  },
+  "config_yaml": {
+    "app": {
+      "name": "job-market-intelligence",
+      "environment": "development",
+      "log_level": "INFO"
+    },
+    "kafka": {
+      "bootstrap_servers": "localhost:9092",
+      "docker_bootstrap_servers": "kafka:29092",
+      "topic": "job_postings",
+      "consumer_group": "job_market_streaming_group",
+      "producer_batch_size": 10,
+      "producer_delay_seconds": 1.0,
+      "auto_offset_reset": "earliest"
+    },
+    "hdfs": {
+      "namenode_url": "hdfs://localhost:9000",
+      "docker_namenode_url": "hdfs://namenode:9000",
+      "webhdfs_url": "http://localhost:9870",
+      "base_path": "/data/job_market",
+      "bronze_path": "/data/job_market/bronze",
+      "silver_path": "/data/job_market/silver",
+      "gold_path": "/data/job_market/gold",
+      "checkpoint_path": "/data/job_market/checkpoints"
+    },
+    "spark": {
+      "app_name": "JobMarketIntelligence",
+      "master": "spark://localhost:7077",
+      "local_master": "local[*]",
+      "driver_memory": "2g",
+      "executor_memory": "2g",
+      "executor_cores": 2,
+      "streaming_trigger_seconds": 10,
+      "warehouse_dir": "hdfs://localhost:9000/user/hive/warehouse"
+    },
+    "hive": {
+      "metastore_uri": "thrift://localhost:9083",
+      "hiveserver2_host": "localhost",
+      "hiveserver2_port": 10000,
+      "database": "job_market_dw",
+      "driver": "org.apache.hive.jdbc.HiveDriver"
+    },
+    "ml": {
+      "model_save_path": "/data/job_market/models/salary_prediction_rf",
+      "train_split_ratio": 0.8,
+      "random_seed": 42,
+      "num_trees": 50,
+      "max_depth": 10
+    },
+    "dataset": {
+      "raw_csv_path": "dataset/tech_job_postings.csv",
+      "sample_size": 10000
+    }
+  },
+  "kafka_components": {
+    "file": "kafka/producer.py",
+    "topic": "job_postings",
+    "default_rate": 10.0,
+    "compression": "gzip",
+    "acks": "all",
+    "features": [
+      "JSON transformation",
+      "Delivery callbacks",
+      "PostgreSQL live metrics logging",
+      "Loop replay mode"
+    ]
+  },
+  "spark_streaming": {
+    "file": "spark/streaming.py",
+    "source": "Kafka ('job_postings')",
+    "sink": "HDFS Parquet Bronze (/data/job_market/bronze)",
+    "watermark": "10 minutes on ingestion_time",
+    "deduplication_key": "job_id",
+    "partition_by": [
+      "ingest_year",
+      "ingest_month",
+      "ingest_day"
+    ],
+    "max_offsets_per_trigger": 5000
+  },
+  "spark_etl": {
+    "file": "spark/etl.py",
+    "layers": {
+      "bronze_to_silver": "Deduplication, currency normalization to USD, role categorizing, location extraction",
+      "silver_to_gold": "Star schema generation (fact_job_postings, 6 dimensions, 4 gold aggregates)"
+    }
+  },
+  "mllib_model": {
+    "metrics": {
+      "model_type": "RandomForestRegressor",
+      "num_trees": 100,
+      "max_depth": 12,
+      "train_records": 10200,
+      "test_records": 2435,
+      "r2_score": 0.2189,
+      "rmse_usd": 79825.18,
+      "mae_usd": 53519.02,
+      "training_duration_sec": 24.98,
+      "model_path": "C:\\Users\\sirap\\OneDrive\\Desktop\\Sem-7\\Big data\\Project\\job-market-intelligence\\data\\models\\salary_prediction_rf"
+    }
+  },
+  "hive_schema": {
+    "dim_company": {
+      "columns": [
+        "company_key BIGINT COMMENT 'Surrogate Primary Key'",
+        "company_name STRING COMMENT 'Normalized Company Name'",
+        "company_domain STRING COMMENT 'Corporate Web Domain'",
+        "company_industry STRING COMMENT 'Industry Sector'",
+        "total_jobs_posted BIGINT COMMENT 'Historical Total Job Volume'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "dim_job_role": {
+      "columns": [
+        "role_key BIGINT COMMENT 'Surrogate Primary Key'",
+        "role_category STRING COMMENT 'Standardized Domain (Data Engineering, AI, etc.)'",
+        "experience_level STRING COMMENT 'Seniority Level (Entry, Mid, Senior, Lead)'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "dim_location": {
+      "columns": [
+        "location_key BIGINT COMMENT 'Surrogate Primary Key'",
+        "city STRING COMMENT 'Normalized City Name'",
+        "country STRING COMMENT 'Normalized Country Name'",
+        "is_remote BOOLEAN COMMENT 'Remote Workplace Flag'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "dim_date": {
+      "columns": [
+        "date_key INT COMMENT 'Surrogate Date Key in YYYYMMDD format'",
+        "full_date DATE COMMENT 'Calendar Date'",
+        "year INT COMMENT 'Calendar Year'",
+        "month INT COMMENT 'Month Number (1-12)'",
+        "day INT COMMENT 'Day of Month (1-31)'",
+        "quarter INT COMMENT 'Quarter of Year (1-4)'",
+        "day_name STRING COMMENT 'Day of Week Name'",
+        "month_name STRING COMMENT 'Month Name'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "dim_skill": {
+      "columns": [
+        "skill_key BIGINT COMMENT 'Surrogate Primary Key'",
+        "skill_name STRING COMMENT 'Normalized lowercase skill tag'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "bridge_job_skills": {
+      "columns": [
+        "job_id STRING COMMENT 'Foreign Key referencing fact_job_postings'",
+        "skill_key BIGINT COMMENT 'Foreign Key referencing dim_skill'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "fact_job_postings": {
+      "columns": [
+        "fact_key BIGINT COMMENT 'Surrogate Fact Key'",
+        "job_id STRING COMMENT 'Natural Unique Job Posting Identifier'",
+        "company_key BIGINT COMMENT 'Foreign Key to dim_company'",
+        "role_key BIGINT COMMENT 'Foreign Key to dim_job_role'",
+        "location_key BIGINT COMMENT 'Foreign Key to dim_location'",
+        "date_key INT COMMENT 'Foreign Key to dim_date'",
+        "title STRING COMMENT 'Raw Job Title'",
+        "annual_salary_usd DOUBLE COMMENT 'Normalized Annualized Salary in USD'",
+        "salary_min DOUBLE COMMENT 'Minimum Offered Salary'",
+        "salary_max DOUBLE COMMENT 'Maximum Offered Salary'",
+        "salary_currency STRING COMMENT 'Original Salary Currency'",
+        "employment_type STRING COMMENT 'Full-time, Part-time, Contract, etc.'",
+        "is_remote BOOLEAN COMMENT 'Remote Indicator'",
+        "skills_count INT COMMENT 'Count of Tagged Skills'",
+        "url STRING COMMENT 'Original Job Application URL'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "gold_top_skills": {
+      "columns": [
+        "skill_name STRING",
+        "posting_count BIGINT",
+        "avg_salary_usd DOUBLE",
+        "remote_percentage DOUBLE"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "gold_salary_by_role_city": {
+      "columns": [
+        "role_category STRING",
+        "city STRING",
+        "experience_level STRING",
+        "total_postings BIGINT",
+        "avg_annual_salary DOUBLE",
+        "min_annual_salary DOUBLE",
+        "max_annual_salary DOUBLE"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "gold_remote_trends": {
+      "columns": [
+        "role_category STRING",
+        "is_remote BOOLEAN",
+        "total_jobs BIGINT",
+        "avg_salary DOUBLE",
+        "avg_skills_required DOUBLE"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "gold_company_hiring": {
+      "columns": [
+        "company_name STRING",
+        "company_industry STRING",
+        "open_positions BIGINT",
+        "avg_offered_salary DOUBLE",
+        "pct_remote DOUBLE"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    },
+    "prediction_results": {
+      "columns": [
+        "prediction_id STRING COMMENT 'Unique Prediction UUID'",
+        "role_category STRING COMMENT 'Selected Job Role'",
+        "experience_level STRING COMMENT 'Selected Experience Level'",
+        "city STRING COMMENT 'Selected City'",
+        "is_remote BOOLEAN COMMENT 'Remote Flag'",
+        "skills_count INT COMMENT 'Number of Skills'",
+        "primary_skill STRING COMMENT 'Primary High-Demand Skill'",
+        "predicted_annual_salary DOUBLE COMMENT 'Spark MLlib Model Predicted Salary (USD)'",
+        "confidence_score DOUBLE COMMENT 'Model Confidence (R2 / Variance Metric)'",
+        "prediction_timestamp TIMESTAMP COMMENT 'Inference Execution Timestamp'"
+      ],
+      "partition_by": "",
+      "format": "PARQUET"
+    }
+  },
+  "hive_queries": [
+    {
+      "query_number": 1,
+      "title": "Overall Job Market Summary KPI Card",
+      "sql": "-- Calculates total postings, average annual salary, distinct companies, and overall remote percentage.\n--"
+    },
+    {
+      "query_number": 2,
+      "title": "Top 15 Most In-Demand Skills Across All Tech Postings",
+      "sql": "-- Counts occurrences of individual skills using the Bridge and Skill dimensions.\n--"
+    },
+    {
+      "query_number": 3,
+      "title": "Highest Paying Tech Skills (Filtered for Statistical Significance >= 50 Postings)",
+      "sql": "-- Identifies premium skills commanding top-tier salaries in the market.\n--"
+    },
+    {
+      "query_number": 4,
+      "title": "Salary Benchmark by Job Role Category",
+      "sql": "-- Compares average, min, and max compensation across major engineering disciplines.\n--"
+    },
+    {
+      "query_number": 5,
+      "title": "Seniority & Experience Level Salary Progression",
+      "sql": "-- Measures salary growth from Entry level up to Lead / Principal roles.\n--"
+    },
+    {
+      "query_number": 6,
+      "title": "Top 10 Tech Hiring Hubs (Cities with High Demand & Compensation)",
+      "sql": "--"
+    },
+    {
+      "query_number": 7,
+      "title": "Remote vs. Onsite Hiring Penetration by Role Category",
+      "sql": "-- Analyzes which technical fields offer the greatest remote flexibility.\n--"
+    },
+    {
+      "query_number": 8,
+      "title": "Top 20 Most Active Hiring Companies",
+      "sql": "-- Measures hiring volume, remote policy, and average compensation by employer.\n--"
+    },
+    {
+      "query_number": 9,
+      "title": "Remote Salary Premium / Discount Analysis",
+      "sql": "-- Evaluates whether remote positions pay more or less than onsite positions per role.\n--"
+    },
+    {
+      "query_number": 10,
+      "title": "Monthly Hiring Volume & Salary Trajectory Trend",
+      "sql": "-- Longitudinal timeline of hiring velocity and salary shifts.\n--"
+    },
+    {
+      "query_number": 11,
+      "title": "Top Skills Required Specifically for Data Engineering & Data Science",
+      "sql": "--"
+    },
+    {
+      "query_number": 12,
+      "title": "High-Paying Remote Opportunities by Category (> $150k USD)",
+      "sql": "--"
+    },
+    {
+      "query_number": 13,
+      "title": "Experience Level Distribution in Top 5 Hiring Tech Companies",
+      "sql": "--"
+    },
+    {
+      "query_number": 14,
+      "title": "Skills with the Highest Remote Opportunity Percentage",
+      "sql": "-- (Filtered for skills with >= 30 mentions)\n--"
+    },
+    {
+      "query_number": 15,
+      "title": "Quarter-over-Quarter (QoQ) Hiring Volume by Tech Category",
+      "sql": "--"
+    },
+    {
+      "query_number": 16,
+      "title": "Multi-Skill Salary Premium (Impact of Skill Stack Breadth)",
+      "sql": "-- Evaluates whether jobs demanding more skills offer higher compensation.\n--"
+    },
+    {
+      "query_number": 17,
+      "title": "Industry Sector vs Average Offered Salary",
+      "sql": "--"
+    },
+    {
+      "query_number": 18,
+      "title": "Salary Variance and Spread by Role (Max - Min Dispersion)",
+      "sql": "--"
+    },
+    {
+      "query_number": 19,
+      "title": "Full-Time vs Contract vs Part-Time Compensation & Volume",
+      "sql": "--"
+    },
+    {
+      "query_number": 20,
+      "title": "Executive & Leadership Hiring Across Top Tech Locations",
+      "sql": "--"
+    }
+  ],
+  "postgres_schema": {},
+  "streamlit_ui": {
+    "file": "streamlit_app.py",
+    "features": [
+      "Real-Time Spark MLlib Salary Inference",
+      "Dynamic Seniority Progression Curve",
+      "Interactive Labor Market Exploration & Filtering",
+      "Live Prediction Session History & Data Export"
+    ]
+  },
+  "grafana_dashboard": {
+    "uid": "job-market-intelligence-main",
+    "title": "Job Market Intelligence - Real-Time Big Data Platform",
+    "panels_count": 19,
+    "panels": [
+      "DASHBOARD 1: REAL-TIME STREAMING & PIPELINE MONITORING",
+      "Kafka Ingestion Rate",
+      "Consumer Lag (Msgs)",
+      "Total Processed Rows (Bronze)",
+      "Spark Micro-Batch Duration",
+      "Failed / Corrupted Records",
+      "DASHBOARD 2: BUSINESS & LABOR MARKET INTELLIGENCE",
+      "Total Tech Job Postings",
+      "Average Market Salary",
+      "Remote Job Adoption Rate",
+      "Distinct Tech Companies Hiring",
+      "Top 10 In-Demand Tech Skills",
+      "Salary Benchmark by Job Role Category",
+      "Workplace Policy: Remote vs Onsite",
+      "Monthly Job Hiring Velocity Trend",
+      "DASHBOARD 3: SPARK MLLIB SALARY PREDICTION INTERFACE",
+      "Predicted Annual Salary (USD)",
+      "Model Confidence Score",
+      "Recent Inferred Predictions (from Hive prediction_results)"
+    ],
+    "template_variables": [
+      "role_category",
+      "experience_level",
+      "city",
+      "is_remote"
+    ]
+  },
+  "dependencies": [],
+  "metrics": {
+    "total_scanned_files": 74,
+    "total_source_lines": 403156
+  }
+}

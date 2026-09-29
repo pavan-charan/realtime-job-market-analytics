@@ -4,7 +4,7 @@ datasources:
   - name: JobMarketPostgres
     type: postgres
     access: proxy
-    url: postgres:5432
+    url: hive-metastore-db:5432
     user: hive
     secureJsonData:
       password: hivepassword

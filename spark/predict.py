@@ -27,6 +27,22 @@ elif "JAVA_HOME" not in os.environ:
             os.environ["JAVA_HOME"] = candidate
             break
 
+# Ensure PYSPARK uses current venv python
+os.environ["PYSPARK_PYTHON"] = sys.executable
+os.environ["PYSPARK_DRIVER_PYTHON"] = sys.executable
+
+# Auto-configure HADOOP_HOME for Windows winutils
+hadoop_home = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "hadoop_home"))
+if os.path.exists(hadoop_home):
+    os.environ["HADOOP_HOME"] = hadoop_home
+    os.environ["hadoop.home.dir"] = hadoop_home
+    bin_path = os.path.join(hadoop_home, "bin")
+    if bin_path not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = bin_path + os.pathsep + os.environ.get("PATH", "")
+
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.types import (
     StructType,
@@ -72,11 +88,12 @@ class SalaryPredictor:
         hdfs_cfg = self.config.get("hdfs", {})
         namenode = hdfs_cfg.get("namenode_url", "hdfs://localhost:9000")
         ml_cfg = self.config.get("ml", {})
+        use_local_fs = os.getenv("USE_LOCAL_FS", "true").lower() == "true" or is_local
 
-        if is_local and os.getenv("USE_LOCAL_FS", "false").lower() == "true":
-            self.model_path = "data/models/salary_prediction_rf"
-            self.predictions_sink = "data/gold/prediction_results"
-            self.silver_path = "data/silver"
+        if use_local_fs:
+            self.model_path = os.path.abspath("data/models/salary_prediction_rf")
+            self.predictions_sink = os.path.abspath("data/gold/prediction_results")
+            self.silver_path = os.path.abspath("data/silver")
         else:
             self.model_path = f"{namenode}{ml_cfg.get('model_save_path', '/data/job_market/models/salary_prediction_rf')}"
             self.predictions_sink = f"{namenode}/data/job_market/gold/prediction_results"
@@ -107,6 +124,13 @@ class SalaryPredictor:
             .getOrCreate()
         )
         spark.sparkContext.setLogLevel("WARN")
+        # Auto-load hadoop.dll into JVM
+        dll_path = os.path.join(os.environ.get("HADOOP_HOME", ""), "bin", "hadoop.dll")
+        if os.path.exists(dll_path):
+            try:
+                spark._jvm.java.lang.System.load(os.path.abspath(dll_path))
+            except Exception:
+                pass
         return spark
 
     def _load_model(self) -> PipelineModel:

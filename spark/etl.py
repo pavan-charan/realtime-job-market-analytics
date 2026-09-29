@@ -34,6 +34,15 @@ elif "JAVA_HOME" not in os.environ:
             os.environ["JAVA_HOME"] = candidate
             break
 
+# Auto-configure HADOOP_HOME for Windows winutils
+hadoop_home = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "hadoop_home"))
+if os.path.exists(hadoop_home):
+    os.environ["HADOOP_HOME"] = hadoop_home
+    os.environ["hadoop.home.dir"] = hadoop_home
+    bin_path = os.path.join(hadoop_home, "bin")
+    if bin_path not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = bin_path + os.pathsep + os.environ.get("PATH", "")
+
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import (
     col,
@@ -90,11 +99,12 @@ class JobMarketETL:
         # Storage Paths
         hdfs_cfg = self.config.get("hdfs", {})
         namenode = hdfs_cfg.get("namenode_url", "hdfs://localhost:9000")
+        use_local_fs = os.getenv("USE_LOCAL_FS", "true").lower() == "true" or is_local
 
-        if is_local and os.getenv("USE_LOCAL_FS", "false").lower() == "true":
-            self.bronze_path = "data/bronze"
-            self.silver_path = "data/silver"
-            self.gold_path = "data/gold"
+        if use_local_fs:
+            self.bronze_path = os.path.abspath("data/bronze")
+            self.silver_path = os.path.abspath("data/silver")
+            self.gold_path = os.path.abspath("data/gold")
         else:
             self.bronze_path = f"{namenode}{hdfs_cfg.get('bronze_path', '/data/job_market/bronze')}"
             self.silver_path = f"{namenode}{hdfs_cfg.get('silver_path', '/data/job_market/silver')}"
@@ -121,9 +131,16 @@ class JobMarketETL:
             .config("spark.sql.adaptive.enabled", "true")
             .config("spark.sql.parquet.compression.codec", "snappy")
             .config("spark.sql.session.timeZone", "UTC")
+            .config("spark.hadoop.dfs.client.use.datanode.hostname", "true")
+            .config("spark.hadoop.dfs.datanode.use.datanode.hostname", "true")
+            .config("spark.hadoop.fs.permissions.umask-mode", "000")
             .getOrCreate()
         )
         spark.sparkContext.setLogLevel("WARN")
+        hadoop_conf = spark.sparkContext._jsc.hadoopConfiguration()
+        hadoop_conf.set("dfs.client.use.datanode.hostname", "true")
+        hadoop_conf.set("dfs.datanode.use.datanode.hostname", "true")
+        hadoop_conf.set("fs.permissions.umask-mode", "000")
         logger.info("Spark Session established. Version: %s", spark.version)
         return spark
 
@@ -196,14 +213,14 @@ class JobMarketETL:
                 
                 -- Location Normalization
                 CASE
-                    WHEN is_remote = true OR LOWER(location_raw) RLIKE 'remote' THEN 'Remote'
+                    WHEN CAST(is_remote AS BOOLEAN) = true OR LOWER(location_raw) RLIKE 'remote' THEN 'Remote'
                     WHEN city IS NOT NULL AND TRIM(city) != '' THEN INITCAP(TRIM(city))
                     WHEN country IS NOT NULL AND TRIM(country) != '' THEN INITCAP(TRIM(country))
                     ELSE 'Remote'
                 END AS city_normalized,
 
                 COALESCE(INITCAP(TRIM(country)), 'Global') AS country_normalized,
-                COALESCE(is_remote, false) AS is_remote,
+                COALESCE(CAST(is_remote AS BOOLEAN), false) AS is_remote,
                 COALESCE(LOWER(TRIM(employment_type)), 'full_time') AS employment_type,
 
                 -- Salary Normalization & Imputation
@@ -486,6 +503,11 @@ def main():
         help="Path to pipeline configuration YAML (default: config/config.yaml)"
     )
     parser.add_argument(
+        "--master",
+        default=None,
+        help="Spark master URL (e.g. spark://localhost:7077 or local[*])"
+    )
+    parser.add_argument(
         "--local",
         action="store_true",
         default=True,
@@ -501,6 +523,8 @@ def main():
     args = parser.parse_args()
 
     etl = JobMarketETL(config_path=args.config, is_local=args.local)
+    if args.master:
+        etl.master = args.master
 
     if args.mode in ["all", "bronze-to-silver"]:
         silver_df = etl.run_bronze_to_silver()

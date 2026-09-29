@@ -65,3 +65,6 @@ htmlcov/
 logs/
 *.log
 scratch/
+
+# Master Project End-to-End Documentation
+PROJECT_END_TO_END_GUIDE.md

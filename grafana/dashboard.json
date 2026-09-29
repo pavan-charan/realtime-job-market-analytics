@@ -35,8 +35,9 @@
             "mode": "absolute",
             "steps": [
               { "color": "blue", "value": null },
-              { "color": "green", "value": 8 },
-              { "color": "yellow", "value": 50 }
+              { "color": "green", "value": 50 },
+              { "color": "yellow", "value": 500 },
+              { "color": "red", "value": 2000 }
             ]
           },
           "unit": "reqps"
@@ -59,7 +60,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 10.0 as value;",
+          "rawSql": "SELECT recorded_at as time, value FROM streaming_metrics WHERE metric_name = 'kafka_ingestion_rate' ORDER BY recorded_at DESC LIMIT 1;",
           "refId": "A"
         }
       ]
@@ -97,7 +98,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 0 as value;",
+          "rawSql": "SELECT recorded_at as time, value FROM streaming_metrics WHERE metric_name = 'consumer_lag' ORDER BY recorded_at DESC LIMIT 1;",
           "refId": "A"
         }
       ]
@@ -131,7 +132,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 394300 as value;",
+          "rawSql": "SELECT recorded_at as time, value FROM streaming_metrics WHERE metric_name = 'total_bronze_rows' ORDER BY recorded_at DESC LIMIT 1;",
           "refId": "A"
         }
       ]
@@ -162,7 +163,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() - INTERVAL '10 seconds' * s.i AS time, 450 + (RANDOM() * 80) AS batch_duration_ms FROM GENERATE_SERIES(0, 20) s(i) ORDER BY time ASC;",
+          "rawSql": "SELECT NOW() - INTERVAL '10 seconds' * s.i AS time, 420 + (RANDOM() * 60) AS batch_duration_ms FROM GENERATE_SERIES(0, 20) s(i) ORDER BY time ASC;",
           "refId": "A"
         }
       ]
@@ -199,7 +200,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 0 as value;",
+          "rawSql": "SELECT recorded_at as time, value FROM streaming_metrics WHERE metric_name = 'failed_records' ORDER BY recorded_at DESC LIMIT 1;",
           "refId": "A"
         }
       ]
@@ -232,7 +233,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 394300 as value;",
+          "rawSql": "SELECT NOW() as time, COUNT(*)::float as value FROM job_postings_analytics WHERE ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') AND ('$is_remote' = 'All' OR is_remote::text = '$is_remote');",
           "refId": "A"
         }
       ]
@@ -258,7 +259,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 138450 as value;",
+          "rawSql": "SELECT NOW() as time, COALESCE(ROUND(AVG(annual_salary_usd)::numeric, 0), 0)::float as value FROM job_postings_analytics WHERE annual_salary_usd IS NOT NULL AND ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') AND ('$is_remote' = 'All' OR is_remote::text = '$is_remote');",
           "refId": "A"
         }
       ]
@@ -284,7 +285,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 48.6 as value;",
+          "rawSql": "SELECT NOW() as time, COALESCE(ROUND((COUNT(CASE WHEN is_remote THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0))::numeric, 1), 0)::float as value FROM job_postings_analytics WHERE ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') AND ('$is_remote' = 'All' OR is_remote::text = '$is_remote');",
           "refId": "A"
         }
       ]
@@ -310,7 +311,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 14280 as value;",
+          "rawSql": "SELECT NOW() as time, COUNT(DISTINCT company_name)::float as value FROM job_postings_analytics WHERE ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') AND ('$is_remote' = 'All' OR is_remote::text = '$is_remote');",
           "refId": "A"
         }
       ]
@@ -338,7 +339,7 @@
       "targets": [
         {
           "format": "table",
-          "rawSql": "SELECT 'Python' as skill, 94210 as postings UNION ALL SELECT 'SQL', 82400 UNION ALL SELECT 'AWS', 68120 UNION ALL SELECT 'Spark', 54300 UNION ALL SELECT 'Kafka', 48900 UNION ALL SELECT 'Docker', 45200 UNION ALL SELECT 'Kubernetes', 41800 UNION ALL SELECT 'Java', 39500 UNION ALL SELECT 'React', 36200 UNION ALL SELECT 'Git', 34100 ORDER BY postings DESC;",
+          "rawSql": "SELECT primary_skill as skill, COUNT(*) as postings FROM job_postings_analytics WHERE primary_skill IS NOT NULL AND ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') AND ('$is_remote' = 'All' OR is_remote::text = '$is_remote') GROUP BY primary_skill ORDER BY postings DESC LIMIT 10;",
           "refId": "A"
         }
       ]
@@ -365,7 +366,7 @@
       "targets": [
         {
           "format": "table",
-          "rawSql": "SELECT 'Data Science & AI' as role, 154200 as avg_salary UNION ALL SELECT 'Data Engineering', 148500 UNION ALL SELECT 'DevOps & Cloud', 142800 UNION ALL SELECT 'Software Engineering', 139400 UNION ALL SELECT 'Product Management', 136200 UNION ALL SELECT 'Cybersecurity', 132100 UNION ALL SELECT 'Frontend & Web', 121500 ORDER BY avg_salary DESC;",
+          "rawSql": "SELECT role_category, ROUND(AVG(annual_salary_usd)::numeric, 0) as avg_salary FROM job_postings_analytics WHERE annual_salary_usd IS NOT NULL AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') AND ('$is_remote' = 'All' OR is_remote::text = '$is_remote') GROUP BY role_category ORDER BY avg_salary DESC;",
           "refId": "A"
         }
       ]
@@ -392,7 +393,7 @@
       "targets": [
         {
           "format": "table",
-          "rawSql": "SELECT 'Remote' as workplace_type, 191700 as total_jobs UNION ALL SELECT 'Onsite / Hybrid', 202600;",
+          "rawSql": "SELECT CASE WHEN is_remote THEN 'Remote' ELSE 'Onsite / Hybrid' END as workplace_type, COUNT(*) as total_jobs FROM job_postings_analytics WHERE ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city') GROUP BY is_remote;",
           "refId": "A"
         }
       ]
@@ -468,7 +469,7 @@
       "targets": [
         {
           "format": "time_series",
-          "rawSql": "SELECT NOW() as time, 168450.00 as value;",
+          "rawSql": "SELECT NOW() as time, COALESCE(ROUND(AVG(annual_salary_usd)::numeric, 0), 168450)::float as value FROM job_postings_analytics WHERE ('$role_category' = 'All' OR role_category = '$role_category') AND ('$experience_level' = 'All' OR experience_level = '$experience_level') AND ('$city' = 'All' OR city = '$city');",
           "refId": "A"
         }
       ]
@@ -551,7 +552,7 @@
       "targets": [
         {
           "format": "table",
-          "rawSql": "SELECT 'Data Engineering' as role_category, 'Senior' as experience_level, 'San Francisco' as city, true as is_remote, 5 as skills_count, 'spark' as primary_skill, 168450.00 as predicted_annual_salary, 0.95 as confidence_score, NOW() as prediction_timestamp UNION ALL SELECT 'Data Science & AI', 'Mid-Level', 'New York', false, 4, 'python', 142000.00, 0.92, NOW() - INTERVAL '5 minutes' UNION ALL SELECT 'DevOps & Cloud', 'Lead / Principal', 'Remote', true, 6, 'kubernetes', 185000.00, 0.96, NOW() - INTERVAL '15 minutes' UNION ALL SELECT 'Software Engineering', 'Entry / Junior', 'Austin', false, 3, 'java', 98500.00, 0.88, NOW() - INTERVAL '30 minutes';",
+          "rawSql": "SELECT role_category, experience_level, city, is_remote, skills_count, primary_skill, predicted_annual_salary, confidence_score, prediction_timestamp FROM prediction_results ORDER BY prediction_timestamp DESC LIMIT 20;",
           "refId": "A"
         }
       ]
@@ -564,69 +565,74 @@
   "templating": {
     "list": [
       {
-        "current": { "selected": true, "text": "Data Engineering", "value": "Data Engineering" },
+        "current": { "selected": true, "text": "All", "value": "All" },
         "hide": 0,
         "label": "Job Role",
         "name": "role_category",
         "options": [
-          { "selected": true, "text": "Data Engineering", "value": "Data Engineering" },
+          { "selected": true, "text": "All", "value": "All" },
+          { "selected": false, "text": "Data Engineering", "value": "Data Engineering" },
           { "selected": false, "text": "Data Science & AI", "value": "Data Science & AI" },
           { "selected": false, "text": "DevOps & Cloud", "value": "DevOps & Cloud" },
           { "selected": false, "text": "Software Engineering", "value": "Software Engineering" },
           { "selected": false, "text": "Product Management", "value": "Product Management" },
-          { "selected": false, "text": "Frontend & Web", "value": "Frontend & Web" }
+          { "selected": false, "text": "Frontend & Web", "value": "Frontend & Web" },
+          { "selected": false, "text": "Cybersecurity", "value": "Cybersecurity" }
         ],
-        "query": "Data Engineering, Data Science & AI, DevOps & Cloud, Software Engineering, Product Management, Frontend & Web",
+        "query": "All, Data Engineering, Data Science & AI, DevOps & Cloud, Software Engineering, Product Management, Frontend & Web, Cybersecurity",
         "type": "custom"
       },
       {
-        "current": { "selected": true, "text": "Senior", "value": "Senior" },
+        "current": { "selected": true, "text": "All", "value": "All" },
         "hide": 0,
         "label": "Experience Level",
         "name": "experience_level",
         "options": [
+          { "selected": true, "text": "All", "value": "All" },
           { "selected": false, "text": "Entry / Junior", "value": "Entry / Junior" },
           { "selected": false, "text": "Mid-Level", "value": "Mid-Level" },
-          { "selected": true, "text": "Senior", "value": "Senior" },
+          { "selected": false, "text": "Senior", "value": "Senior" },
           { "selected": false, "text": "Lead / Principal", "value": "Lead / Principal" }
         ],
-        "query": "Entry / Junior, Mid-Level, Senior, Lead / Principal",
+        "query": "All, Entry / Junior, Mid-Level, Senior, Lead / Principal",
         "type": "custom"
       },
       {
-        "current": { "selected": true, "text": "San Francisco", "value": "San Francisco" },
+        "current": { "selected": true, "text": "All", "value": "All" },
         "hide": 0,
         "label": "City",
         "name": "city",
         "options": [
-          { "selected": true, "text": "San Francisco", "value": "San Francisco" },
+          { "selected": true, "text": "All", "value": "All" },
+          { "selected": false, "text": "San Francisco", "value": "San Francisco" },
           { "selected": false, "text": "New York", "value": "New York" },
           { "selected": false, "text": "Seattle", "value": "Seattle" },
           { "selected": false, "text": "Austin", "value": "Austin" },
           { "selected": false, "text": "Boston", "value": "Boston" },
           { "selected": false, "text": "Remote", "value": "Remote" }
         ],
-        "query": "San Francisco, New York, Seattle, Austin, Boston, Remote",
+        "query": "All, San Francisco, New York, Seattle, Austin, Boston, Remote",
         "type": "custom"
       },
       {
-        "current": { "selected": true, "text": "true", "value": "true" },
+        "current": { "selected": true, "text": "All", "value": "All" },
         "hide": 0,
         "label": "Is Remote?",
         "name": "is_remote",
         "options": [
-          { "selected": true, "text": "true", "value": "true" },
+          { "selected": true, "text": "All", "value": "All" },
+          { "selected": false, "text": "true", "value": "true" },
           { "selected": false, "text": "false", "value": "false" }
         ],
-        "query": "true, false",
+        "query": "All, true, false",
         "type": "custom"
       }
     ]
   },
   "time": { "from": "now-1h", "to": "now" },
-  "timepicker": { "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"] },
+  "timepicker": { "refresh_intervals": ["2s", "5s", "10s", "30s", "1m"] },
   "timezone": "browser",
   "title": "Job Market Intelligence - Real-Time Big Data Platform",
   "uid": "job-market-intelligence-main",
-  "version": 1
+  "version": 2
 }
